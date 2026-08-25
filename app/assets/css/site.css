@@ -1,0 +1,88 @@
+/* Site layer — the page-level patterns the marketing pages share.
+   Everything here is composed from the Nocturne tokens. */
+
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+.site-main { flex: 1; }
+
+/* — page furniture — */
+.wrap { max-width: 1120px; margin: 0 auto; }
+
+.section { padding: 88px 40px; }
+.section--rule { border-bottom: 1px solid var(--color-divider); }
+.section--intro { padding-bottom: 64px; }
+.section--close { padding: 96px 40px; }
+
+/* — type — */
+.eyebrow { margin: 0; color: var(--color-accent-300); }
+.page-title {
+  margin: 16px 0 0;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.section-title {
+  margin: 0;
+  font-size: clamp(26px, 3.2vw, 38px);
+  letter-spacing: -0.025em;
+}
+.lede {
+  margin: 22px 0 0;
+  font-size: 18px;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+}
+.body-copy { margin: 14px 0 0; color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.dim { color: color-mix(in srgb, var(--color-text) 72%, transparent); }
+.dimmer { color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.dimmest { color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+
+/* Small all-caps label used above steps, panels and stat groups. */
+.label {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+.label--accent { color: var(--color-accent-300); }
+
+/* — grids — */
+/* Column count follows the available width; --min sets the breaking point. */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min, 260px), 1fr));
+  gap: var(--gap, 20px);
+}
+
+/* An outlined panel, the counterpart to .card's filled surface. */
+.panel {
+  padding: 24px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+}
+.panel--accent {
+  border-color: var(--color-accent-700);
+  background: color-mix(in srgb, var(--color-accent-300) 5%, transparent);
+}
+.panel p { margin: 10px 0 0; }
+
+/* Ring highlight for the one card in a row that carries the argument. */
+.card--featured { box-shadow: 0 0 0 1px var(--color-accent-700); }
+
+/* Headline on the left, call to action on the right. */
+.closer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+@media (max-width: 720px) {
+  .section, .section--close { padding: 64px 20px; }
+  .section--intro { padding-bottom: 48px; }
+}
