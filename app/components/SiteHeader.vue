@@ -1,44 +1,46 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    /** Marketing pages float the header over the content; the waitlist doesn't. */
-    sticky?: boolean
-    /** Hidden on the waitlist page, where the whole page is the call to action. */
+    /** Hidden on the waitlist page, which is where the CTA leads. */
     cta?: boolean
   }>(),
-  { sticky: true, cta: true },
+  { cta: true },
 )
 </script>
 
 <template>
-  <header class="site-header" :class="{ 'site-header--sticky': sticky }">
-    <NuxtLink to="/" class="brand">
-      <BeeMark />
-      <span>BiziBees.ai</span>
-    </NuxtLink>
-    <nav class="site-nav">
-      <NuxtLink to="/how-it-works">How it works</NuxtLink>
-      <NuxtLink to="/investors">Investors</NuxtLink>
-      <NuxtLink v-if="cta" to="/waitlist" class="btn btn-primary">Join the waitlist</NuxtLink>
-    </nav>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <NuxtLink to="/" class="brand">
+        <BeeMark />
+        <span>BiziBees.ai</span>
+      </NuxtLink>
+      <nav class="site-nav">
+        <NuxtLink to="/how-it-works">How it works</NuxtLink>
+        <NuxtLink to="/investors">Investors</NuxtLink>
+        <NuxtLink v-if="cta" to="/waitlist" class="btn btn-primary site-nav__cta">
+          Join the waitlist
+        </NuxtLink>
+      </nav>
+    </div>
   </header>
 </template>
 
 <style scoped>
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--color-neutral-800);
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  backdrop-filter: blur(14px) saturate(150%);
+}
+.site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 18px 40px;
-  border-bottom: 1px solid var(--color-divider);
-}
-.site-header--sticky {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-  backdrop-filter: blur(10px);
+  padding: 13px 28px;
 }
 
 .brand {
@@ -46,39 +48,51 @@ withDefaults(
   align-items: center;
   gap: 9px;
   color: var(--color-text);
-  font-size: 16px;
+  font-size: 15.5px;
   letter-spacing: -0.01em;
 }
 .brand:hover {
   color: var(--color-text);
-  text-decoration: none;
+  opacity: 0.75;
 }
 
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 4px;
   font-size: 14px;
 }
 .site-nav a {
-  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  padding: 7px 11px;
+  border-radius: var(--radius-sm);
+  color: var(--color-neutral-300);
 }
-/* The link to the page you are on stays lit. */
+.site-nav a:hover {
+  background: var(--color-neutral-800);
+  color: var(--color-text);
+}
+/* The link to the page you are on stays lit, and doesn't take the hover pill. */
 .site-nav a.router-link-active {
   color: var(--color-accent-300);
+  background: transparent;
 }
-.site-nav a.btn {
+/* The CTA keeps its button colours, so it has to outrank `.site-nav a`. */
+.site-nav a.site-nav__cta,
+.site-nav a.site-nav__cta:hover {
+  margin-left: 10px;
   color: var(--color-accent);
+}
+.site-nav a.site-nav__cta:hover {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 
 @media (max-width: 720px) {
-  .site-header {
+  .site-header__inner {
     flex-wrap: wrap;
-    gap: 14px;
-    padding: 16px 20px;
+    gap: 12px;
+    padding: 12px 20px;
   }
-  .site-nav {
-    gap: 18px;
-  }
+  .site-nav { gap: 2px; }
+  .site-nav__cta { margin-left: 6px; }
 }
 </style>

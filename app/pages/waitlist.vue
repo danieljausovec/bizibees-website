@@ -1,8 +1,8 @@
 <script setup lang="ts">
 definePageMeta({
-  // The waitlist is the destination, so the header drops its own CTA and stays put.
-  stickyHeader: false,
+  // The waitlist is where the header CTA leads, so it doesn't repeat it.
   headerCta: false,
+  footerTagline: 'We onboard market by market, starting with a handful of shops in each.',
 })
 
 useSeoMeta({
@@ -41,7 +41,7 @@ async function submit() {
 <template>
   <div class="waitlist wrap">
     <div>
-      <h6 class="eyebrow">Join the waitlist</h6>
+      <div class="mono mono--accent">Join the waitlist</div>
       <h1 class="waitlist__title">Tell us about your shop.</h1>
       <p class="waitlist__lede">
         We onboard market by market and start with a handful of shops in each. No commitment, no
@@ -106,7 +106,7 @@ async function submit() {
   gap: 64px;
   align-content: start;
   width: 100%;
-  padding: 88px 40px 96px;
+  padding: 88px 28px 96px;
 }
 
 .waitlist__title {
@@ -114,13 +114,13 @@ async function submit() {
   margin: 16px 0 0;
   font-size: clamp(34px, 4.4vw, 54px);
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 .waitlist__lede {
   max-width: 46ch;
   margin: 20px 0 0;
   font-size: 17px;
-  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  color: var(--color-neutral-200);
 }
 
 .perks {
@@ -128,7 +128,7 @@ async function submit() {
   gap: 14px;
   margin-top: 36px;
   font-size: 14px;
-  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+  color: var(--color-neutral-300);
 }
 .perk {
   display: flex;
@@ -145,6 +145,7 @@ async function submit() {
   background: var(--color-surface);
   box-shadow: var(--shadow-sm);
 }
+.signup .input:focus { border-color: var(--color-accent-500); }
 .signup__submit {
   padding: 12px 20px;
   font-size: 15px;
@@ -153,12 +154,12 @@ async function submit() {
 .signup__fineprint {
   margin: 0;
   font-size: 12px;
-  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+  color: var(--color-neutral-400);
 }
 
 .confirmation {
   align-self: start;
-  padding: 40px 32px;
+  padding: 40px 28px;
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: 0 0 0 1px var(--color-accent-700);
@@ -178,7 +179,7 @@ async function submit() {
 .confirmation__body {
   margin: 0;
   max-width: 38ch;
-  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  color: var(--color-neutral-200);
 }
 .confirmation__link {
   display: inline-block;

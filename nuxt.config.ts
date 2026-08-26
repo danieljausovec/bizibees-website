@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       titleTemplate: '%s · BiziBees.ai',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#23212c' },
+        { name: 'theme-color', content: '#161826' },
       ],
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     },

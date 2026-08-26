@@ -34,9 +34,10 @@ app/
   types/page-meta.d.ts      typing for the custom page meta the layout reads
 ```
 
-`nocturne.css` is the exported design system with the token block retuned to the
-BiziBees palette — a citron accent (`--color-accent-300`) on a deep plum ground.
-Change the brand there, not in the pages.
+`nocturne.css` is the exported design system, vendored close to verbatim so a
+re-export diffs cleanly against it. The only local edits are marked `site:` in
+the file: a `--font-mono` token and the link colours the pages assume. Change the
+brand there, not in the pages.
 
 The pages carry no inline styles: repeated inline rules from the export became
 either shared classes in `site.css` or scoped styles in the page that uses them.
@@ -45,14 +46,18 @@ top of each page's `<script setup>`, so copy edits happen in one place.
 
 ### Page meta
 
-The default layout reads three optional keys off page meta, declared in
+The default layout reads two optional keys off page meta, declared in
 `app/types/page-meta.d.ts`:
 
-- `stickyHeader` — float the header over the content (default `true`)
 - `headerCta` — show "Join the waitlist" in the nav (default `true`)
-- `footerNote` — extra line after the footer wordmark
+- `footerTagline` — the one-line summary under the footer wordmark
 
-`/waitlist` turns off the first two; `/investors` sets the third.
+`/waitlist` turns off the CTA, since it is where that CTA leads. Every page sets
+its own tagline.
+
+The footer's Product column lists the product pages minus the one you are on.
+The export hard-codes those lists per page and omits Home on `/investors`; the
+generalisation matches it everywhere else and adds the missing link.
 
 ## Known gap
 
