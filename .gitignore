@@ -4,9 +4,12 @@ node_modules
 .nitro
 .cache
 .output
+.data
 .env
+.env.*
 dist
 .DS_Store
+.idea
 
 # Local Claude Code config
 .claude/

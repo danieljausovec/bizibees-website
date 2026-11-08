@@ -1,98 +1,51 @@
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    /** Hidden on the waitlist page, which is where the CTA leads. */
-    cta?: boolean
-  }>(),
-  { cta: true },
-)
+const links = [
+  { to: '/#products', label: 'Products' },
+  { to: '/#ai', label: 'AI & API' },
+  { to: '/#compliance', label: 'E-invoicing' },
+  { to: '/#pricing', label: 'Pricing' },
+  { to: '/#accountants', label: 'For accountants' },
+]
 </script>
 
 <template>
-  <header class="site-header">
-    <div class="wrap site-header__inner">
-      <NuxtLink to="/" class="brand">
-        <BeeMark />
-        <span>BiziBees.ai</span>
-      </NuxtLink>
-      <nav class="site-nav">
-        <NuxtLink to="/how-it-works">How it works</NuxtLink>
-        <NuxtLink to="/investors">Investors</NuxtLink>
-        <NuxtLink v-if="cta" to="/waitlist" class="btn btn-primary site-nav__cta">
-          Join the waitlist
-        </NuxtLink>
+  <header class="header">
+    <div class="container header__inner">
+      <NuxtLink to="/" aria-label="Bizibees home"><AppLogo /></NuxtLink>
+      <nav aria-label="Main" class="header__nav">
+        <NuxtLink v-for="l in links" :key="l.to" :to="l.to">{{ l.label }}</NuxtLink>
       </nav>
+      <div class="header__actions">
+        <NuxtLink to="/sign-in" class="btn btn--sm header__signin">Sign in</NuxtLink>
+        <NuxtLink to="/sign-up" class="btn btn--sm btn--dark">
+          <span class="label-long">Get early access</span><span class="label-short">Sign up</span>
+          <AppIcon name="arrow" :size="14" :stroke="2.2" />
+        </NuxtLink>
+      </div>
     </div>
   </header>
 </template>
 
 <style scoped>
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  border-bottom: 1px solid var(--color-neutral-800);
-  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-  backdrop-filter: blur(14px) saturate(150%);
+.header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line-soft);
 }
-.site-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 13px 28px;
+.header__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.header__nav { display: flex; gap: 28px; flex-wrap: wrap; font-size: 14px; font-weight: 500; }
+.header__nav a { color: var(--ink-3); }
+.header__nav a:hover { color: var(--ink); }
+.header__actions { display: flex; gap: 6px; align-items: center; }
+.header__signin { padding-inline: 14px; font-weight: 500; }
+.label-short { display: none; }
+@media (max-width: 900px) {
+  .header__nav { display: none; }
+  .header__inner { flex-wrap: nowrap; }
 }
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--color-text);
-  font-size: 15.5px;
-  letter-spacing: -0.01em;
-}
-.brand:hover {
-  color: var(--color-text);
-  opacity: 0.75;
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-}
-.site-nav a {
-  padding: 7px 11px;
-  border-radius: var(--radius-sm);
-  color: var(--color-neutral-300);
-}
-.site-nav a:hover {
-  background: var(--color-neutral-800);
-  color: var(--color-text);
-}
-/* The link to the page you are on stays lit, and doesn't take the hover pill. */
-.site-nav a.router-link-active {
-  color: var(--color-accent-300);
-  background: transparent;
-}
-/* The CTA keeps its button colours, so it has to outrank `.site-nav a`. */
-.site-nav a.site-nav__cta,
-.site-nav a.site-nav__cta:hover {
-  margin-left: 10px;
-  color: var(--color-accent);
-}
-.site-nav a.site-nav__cta:hover {
-  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
-}
-
-@media (max-width: 720px) {
-  .site-header__inner {
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 12px 20px;
-  }
-  .site-nav { gap: 2px; }
-  .site-nav__cta { margin-left: 6px; }
+@media (max-width: 480px) {
+  .label-long { display: none; }
+  .label-short { display: inline; }
 }
 </style>

@@ -1,67 +1,48 @@
-# BiziBees.ai — website
+# Bizibees website (Nuxt 4)
 
-Nuxt 4 build of the BiziBees marketing site, converted from the Claude Design
-canvas export (`Website from PDF about agentics.zip`).
+Marketing site plus Sign in / Sign up pages for Bizibees.
 
-## Running it
+## Run it
 
 ```bash
 npm install
-npm run dev
+npm run dev        # http://localhost:3000
+npm run build      # production build (Node server in .output/)
+npm run preview    # run the production build locally
+npm run generate   # static site in .output/public (API routes won't run)
 ```
 
-If `npm install` fails with `Cannot read properties of null (reading 'edgesOut')`,
-that is a peer-resolution bug in npm 10.9.2, not this project. Use the committed
-lockfile (`npm ci`) or `npm install --legacy-peer-deps`.
+Node 20+ is required.
 
-| Script | Does |
-| --- | --- |
-| `npm run dev` | Dev server on http://localhost:3000 |
-| `npm run build` | Production build into `.output` |
-| `npm run preview` | Serve the production build |
-| `npm run generate` | Static prerender — the site has no server routes, so this works as-is |
-| `npm run typecheck` | `vue-tsc` over the project |
+## Routes
 
-## Layout of the code
+| Route      | File                     |
+|------------|--------------------------|
+| `/`        | `app/pages/index.vue`    |
+| `/sign-in` | `app/pages/sign-in.vue`  |
+| `/sign-up` | `app/pages/sign-up.vue`  |
+| `POST /api/sign-up` | `server/api/sign-up.post.ts` (stub) |
+| `POST /api/sign-in` | `server/api/sign-in.post.ts` (stub) |
 
-```
-app/
-  assets/css/nocturne.css   design-system tokens + component classes (.btn, .card, .table, …)
-  assets/css/site.css       page-level patterns shared across routes (.section, .wrap, .auto-grid, …)
-  components/               SiteHeader, SiteFooter, BeeMark
-  layouts/default.vue       header + main + footer shell
-  pages/                    index, how-it-works, investors, waitlist
-  types/page-meta.d.ts      typing for the custom page meta the layout reads
-```
+## Where to change things
 
-`nocturne.css` is the exported design system, vendored close to verbatim so a
-re-export diffs cleanly against it. The only local edits are marked `site:` in
-the file: a `--font-mono` token and the link colours the pages assume. Change the
-brand there, not in the pages.
+- **Logo** – put your file in `public/` (e.g. `public/logo.svg`) and set `LOGO_SRC`
+  in `app/components/AppLogo.vue`. Replace `public/favicon.svg` too.
+- **Colours, fonts, spacing** – CSS variables at the top of `app/assets/css/main.css`.
+  `--accent` is the honey yellow used for buttons and highlights.
+- **Landing page sections** – one component each in `app/components/landing/`
+  (Hero, Products, Flow, MultiCompany, AiApi, Compliance, Pricing, Accountants, FinalCta).
+- **Prices** – `app/components/landing/Pricing.vue` (currently `[PRICE]` placeholders).
+- **Header / footer links** – `app/components/SiteHeader.vue`, `SiteFooter.vue`.
 
-The pages carry no inline styles: repeated inline rules from the export became
-either shared classes in `site.css` or scoped styles in the page that uses them.
-Repeated content blocks (cards, stages, table rows, phases) are data arrays at the
-top of each page's `<script setup>`, so copy edits happen in one place.
+## Sign up / sign in
 
-### Page meta
+The sign-up form collects **account name** and **email**, validates them on the
+client and on the server, then shows a “Check your inbox” confirmation.
+The landing page’s bottom email box pre-fills the sign-up email (`/sign-up?email=…`).
 
-The default layout reads two optional keys off page meta, declared in
-`app/types/page-meta.d.ts`:
+Both API routes are stubs — connect them to your backend (see the TODOs in
+`server/api/`). Sign-in should set a secure httpOnly session cookie and redirect to
+the app dashboard once it exists.
 
-- `headerCta` — show "Join the waitlist" in the nav (default `true`)
-- `footerTagline` — the one-line summary under the footer wordmark
-
-`/waitlist` turns off the CTA, since it is where that CTA leads. Every page sets
-its own tagline.
-
-The footer's Product column lists the product pages minus the one you are on.
-The export hard-codes those lists per page and omits Home on `/investors`; the
-generalisation matches it everywhere else and adds the missing link.
-
-## Known gap
-
-The waitlist form is front-end only: submitting flips it to the confirmation
-state the design specifies, but nothing is sent anywhere. The `submit()` handler
-in `app/pages/waitlist.vue` is where a POST to a real endpoint goes, along with
-the error handling that an optimistic confirmation currently skips.
+The API code sample in the “AI & open API” section is illustrative only.
